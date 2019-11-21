@@ -1,6 +1,6 @@
 {
     "name": "devpartners/auditable-log",
-    "description": "A Laravel Nova resource tool.",
+    "description": "A Laravel Nova resource tool for displaying the Laravel Auditing audit log.",
     "keywords": [
         "laravel",
         "nova"
