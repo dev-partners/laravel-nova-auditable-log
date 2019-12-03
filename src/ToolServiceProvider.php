@@ -11,8 +11,6 @@ class ToolServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -21,15 +19,20 @@ class ToolServiceProvider extends ServiceProvider
         });
 
         Nova::serving(function (ServingNova $event) {
-            Nova::script('auditable-log', __DIR__.'/../dist/js/tool.js');
-            Nova::style('auditable-log', __DIR__.'/../dist/css/tool.css');
+            Nova::script('auditable-log', __DIR__ . '/../dist/js/tool.js');
+            Nova::style('auditable-log', __DIR__ . '/../dist/css/tool.css');
         });
     }
 
     /**
+     * Register any application services.
+     */
+    public function register()
+    {
+    }
+
+    /**
      * Register the tool's routes.
-     *
-     * @return void
      */
     protected function routes()
     {
@@ -38,17 +41,7 @@ class ToolServiceProvider extends ServiceProvider
         }
 
         Route::middleware(['nova'])
-                ->prefix('nova-vendor/auditable-log')
-                ->group(__DIR__.'/../routes/api.php');
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
+            ->prefix('nova-vendor/auditable-log')
+            ->group(__DIR__ . '/../routes/api.php');
     }
 }

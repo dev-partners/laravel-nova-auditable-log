@@ -39,7 +39,7 @@
                             </svg>
                         </td>
                         <td>
-                            {{ audit.user.name }}
+                            {{ audit.user ? audit.user.name : 'console' }}
                         </td>
                         <td>
                             {{ audit.event }}
