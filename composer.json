@@ -21,6 +21,9 @@
             ]
         }
     },
+    "suggest": {
+        "owen-it/laravel-auditing": "Provides the necessary functionality to audit your Eloquent models"
+    },
     "config": {
         "sort-packages": true
     },
