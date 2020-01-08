@@ -1,6 +1,6 @@
 # Resource Tool for Laravel Auditing
 
-A Laravel Nova Resource Tool that allows you to easily display the audit log that is created by the Laravel Auditing package (owen-it/laravel-auditing).
+A Laravel Nova Resource Tool that allows you to easily display the audit log that is created by the [Laravel Auditing](http://www.laravel-auditing.com/) package (owen-it/laravel-auditing).
 
 ## Installation
 
@@ -23,8 +23,8 @@ public function fields(Request $request)
     Text::make('Name'),
     Text::make('E-mail'),
     
-    // Shows audit log on detail view
-    AuditableLog::make('Audit Log')
+    // Shows audit log button on detail view, which expands audit trail
+    AuditableLog::make()
   ];
 
 }
