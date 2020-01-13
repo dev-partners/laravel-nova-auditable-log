@@ -16,3 +16,4 @@ use Devpartners\AuditableLog\Http\Controllers\AuditController;
 */
 
 Route::get('/audits/{resourceName}/{resourceId}', AuditController::class.'@show');
+Route::post('/audits/{resourceName}/{resourceId}/{auditId}', AuditController::class.'@restore');
