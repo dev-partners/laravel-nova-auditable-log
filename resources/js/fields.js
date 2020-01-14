@@ -5,7 +5,6 @@ export const normaliseFields = fields =>
     fields.filter(field => field.attribute !== "")
         .forEach(field => {
             if (field.attribute !== "") {
-                console.log(field);
                 const {attribute, value, name} = field;
                 indexedFields[attribute] = {
                     value,

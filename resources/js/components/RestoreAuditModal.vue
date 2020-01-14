@@ -9,7 +9,7 @@
             <slot>
                 <div class="p-8">
                     <heading :level="2" class="mb-6">
-                        Restore audit
+                        {{__('Restore audit')}}
                     </heading>
                     <table class="table w-full mt-4">
                         <thead>
@@ -20,13 +20,13 @@
                             />
                         </th>
                         <th>
-                            Field
+                            {{__('Field')}}
                         </th>
                         <th>
-                            Current
+                            {{__('Current')}}
                         </th>
                         <th>
-                            Restore to
+                            {{__('Restore to')}}
                         </th>
                         </thead>
                         <tbody>
@@ -40,7 +40,7 @@
                         </tr>
                         <tr v-if="comparison.length == 0">
                             <td colspan="4" class="text-center">
-                                No changes
+                                {{__('No changes')}}
                             </td>
                         </tr>
                         </tbody>

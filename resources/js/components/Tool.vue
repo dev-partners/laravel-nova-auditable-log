@@ -3,18 +3,18 @@
         <hr class="border-t-2 border-50 my-11">
 
         <div v-if="displayAudits">
-            <h2 class="mb-3 text-90 font-normal text-2xl">Audit Log</h2>
+            <h2 class="mb-3 text-90 font-normal text-2xl">{{__('Audit Log')}}</h2>
             <div class="card">
                 <table cellpadding="0" cellspacing="0" data-testid="resource-table" class="table w-full">
                     <thead>
                     <tr>
                         <th></th>
-                        <th class="text-left"><span> User </span></th>
-                        <th class="text-left"><span> Event </span></th>
-                        <th class="text-left"><span> Date/Time </span></th>
-                        <th class="text-left"><span> Old Values </span></th>
-                        <th class="text-left"><span> New Values </span></th>
-                        <th></th>
+                        <th class="text-left"><span> {{__('User')}} </span></th>
+                        <th class="text-left"><span> {{__('Event')}} </span></th>
+                        <th class="text-left"><span> {{__('Date/Time')}} </span></th>
+                        <th class="text-left"><span> {{__('Old Values')}} </span></th>
+                        <th class="text-left"><span> {{__('New Values')}} </span></th>
+                        <th v-if="canRestore"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,7 +40,7 @@
                             </svg>
                         </td>
                         <td>
-                            {{ audit.user ? audit.user.name : 'console' }}
+                            {{ audit.user ? audit.user.name : __('console') }}
                         </td>
                         <td>
                             {{ audit.event }}
@@ -60,7 +60,7 @@
                                 new_value.value }}
                             </div>
                         </td>
-                        <td class="text-center">
+                        <td class="text-center" v-if="canRestore">
                             <svg @click="showRestoreAudit(audit)" style="max-width: 20px;"
                                  xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
                                  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -95,7 +95,7 @@
                                 class="btn btn-link py-3 px-4 text-80"
                                 :class="{ 'opacity-50': pagination.prev_page_url === null, 'text-primary': pagination.prev_page_url !== null }"
                                 @click="fetchAudits(pagination.prev_page_url)">
-                            Previous
+                            {{__('Previous')}}
                         </button>
                         <span class="text-sm text-80 px-4">
                     {{ pagination.from }}-{{ pagination.to }} of {{ pagination.total }}
@@ -103,19 +103,20 @@
                         <button :disabled="pagination.next_page_url === null" rel="next" dusk="next"
                                 :class="{ 'opacity-50': pagination.next_page_url === null, 'text-primary': pagination.next_page_url !== null }"
                                 class="btn btn-link py-3 px-4 text-80" @click="fetchAudits(pagination.next_page_url)">
-                            Next
+                            {{__('Next')}}
                         </button>
                     </nav>
                 </div>
             </div>
         </div>
 
-        <button class="btn btn-default btn-primary" @click.prevent="showAndFetch" v-if="displayAudits === false">View
-            Audit Log
+        <button class="btn btn-default btn-primary" @click.prevent="showAndFetch" v-if="displayAudits === false">
+            {{__('View Audit Log')}}
         </button>
 
-        <restore-audit-modal v-if="restore !== null" :fields="parentFields" :resourceName="resourceName" :resourceId="resourceId"
-                             :audit="restore" @close="restore = null" @restored="restored"></restore-audit-modal>
+        <restore-audit-modal v-if="restore !== null" :fields="parentFields" :resourceName="resourceName"
+                             :resourceId="resourceId" :audit="restore" @close="restore = null" @restored="restored">
+        </restore-audit-modal>
     </div>
 </template>
 
@@ -135,7 +136,8 @@
                 displayAudits: false,
                 pagination: {},
                 restore: null,
-                parentFields: []
+                parentFields: [],
+                canRestore: false,
             }
         },
 
@@ -155,25 +157,23 @@
                 this.fetchAudits();
             },
 
-            fetchAudits(page = null) {
-                let vm = this;
-
+            async fetchAudits(page = null) {
                 if (!page) {
-                    page = '/nova-vendor/auditable-log/audits/' + vm.resourceName + '/' + vm.resourceId
+                    page = `/nova-vendor/auditable-log/audits/${this.resourceName}/${this.resourceId}`
                 }
 
-                Nova.request().get(page)
-                    .then(({data}) => {
-                        vm.audits = data.audits.data;
-                        vm.pagination = data.audits;
-                    })
-                    .catch(() => {
-
-                    })
+                try {
+                    const {data} = await Nova.request().get(page);
+                    this.audits = data.audits.data;
+                    this.pagination = data.audits;
+                    this.canRestore = data.restore;
+                }
+                catch(e) {
+                    // Do nothing, nova handles errors
+                }
             },
 
             formatData(values) {
-                let vm = this;
                 let returned = [];
 
                 for (var property in values) {

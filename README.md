@@ -31,4 +31,23 @@ public function fields(Request $request)
 
 ```
 
+## Policies
+
+There are 2 checks available you can implement on your resources' policy:
+
+```php
+// Is the user able to access the audit log for this resource?
+public function audit($loggedInUser, $resource) {
+    return true;
+}
+```
+
+
+```php
+// Is the user able to restore values based on audits for this resource?
+public function audit_restore($loggedInUser, $resource) {
+    return true;
+}
+```
+
 ![Audit Log within Laravel Nova Resource](https://raw.githubusercontent.com/dev-partners/laravel-nova-auditable-log/master/dist/audit-log-button.gif)

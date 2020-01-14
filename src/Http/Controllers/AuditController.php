@@ -16,9 +16,14 @@ class AuditController
     {
         $record = $this->loadRecord($resourceName, $resourceId);
 
-        $audits = $record->audits()->with('user')->orderBy('created_at', 'desc')->paginate();
+        abort_if($request->user()->cant('audit', $record), 403, 'Unable to retrieve audits');
 
-        return response()->json(['status' => 'OK', 'audits' => $audits]);
+        $audits = $record->audits()
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate();
+
+        return response()->json(['status' => 'OK', 'audits' => $audits, 'restore' => $request->user()->can('audit_restore', $record)]);
     }
 
     /**
@@ -37,6 +42,7 @@ class AuditController
     public function restore(Request $request, $resourceName, $resourceId, $auditId)
     {
         $record = $this->loadRecord($resourceName, $resourceId);
+        abort_if($request->user()->cant('audit_restore', $record), 403, 'Unable to restore audits');
 
         /**
          * @var $auditor Audit
