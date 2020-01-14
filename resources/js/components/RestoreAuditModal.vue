@@ -11,9 +11,6 @@
                     <heading :level="2" class="mb-6">
                         Restore audit
                     </heading>
-                    <p class="text-80 leading-normal">
-                        We'll be doing something here myeah
-                    </p>
                     <table class="table w-full mt-4">
                         <thead>
                         <th style="max-width: 20px;">
