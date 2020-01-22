@@ -14,6 +14,11 @@ class AuditableLog extends ResourceTool
 
         // Don't render the component if the user does not have access
         $this->canSee(function (NovaRequest $request) {
+
+            if ($request->isCreateOrAttachRequest()) {
+                return false;
+            }
+
             return $request->user()->can('audit', $request->findModelOrFail());
         });
     }
