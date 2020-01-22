@@ -14,8 +14,7 @@ class AuditableLog extends ResourceTool
 
         // Don't render the component if the user does not have access
         $this->canSee(function (NovaRequest $request) {
-
-            if ($request->isCreateOrAttachRequest()) {
+            if (!$request instanceof \Laravel\Nova\Http\Requests\ResourceDetailRequest) {
                 return false;
             }
 
