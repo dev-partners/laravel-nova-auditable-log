@@ -33,9 +33,7 @@ public function fields(Request $request)
 
 ## Policies
 
-There are 2 checks available that you should implement on your resources' policy. 
-
-*Important: in the current version of the package, if you do not add these methods to the resource policies, you will encounter errors creating new records. The intent is to make these methods optional in a future version.*
+There are two policy gates available that you can implement on your resources' policy. 
 
 
 ```php
