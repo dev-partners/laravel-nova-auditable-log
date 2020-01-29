@@ -36,7 +36,7 @@ class AuditController
     {
         $model = Nova::modelInstanceForKey($resourceName);
 
-        return $model::find($resourceId);
+        return $model::withTrashed()->find($resourceId);
     }
 
     public function restore(Request $request, $resourceName, $resourceId, $auditId)
