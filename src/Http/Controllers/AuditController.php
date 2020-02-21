@@ -36,7 +36,9 @@ class AuditController
     {
         $model = Nova::modelInstanceForKey($resourceName);
 
-        return $model::withTrashed()->find($resourceId);
+        return in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($model))
+            ? $model::withTrashed()->find($resourceId)
+            : $model->find($resourceId);
     }
 
     public function restore(Request $request, $resourceName, $resourceId, $auditId)
