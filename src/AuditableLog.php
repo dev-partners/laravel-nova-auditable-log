@@ -2,9 +2,8 @@
 
 namespace Devpartners\AuditableLog;
 
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\ResourceTool;
-use Laravel\Nova\ResourceToolElement;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AuditableLog extends ResourceTool
 {
@@ -21,6 +20,7 @@ class AuditableLog extends ResourceTool
             return $request->user()->can('audit', $request->findModelOrFail());
         });
     }
+
     /**
      * Get the displayable name of the resource tool.
      *
