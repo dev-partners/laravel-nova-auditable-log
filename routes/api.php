@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Devpartners\AuditableLog\Http\Controllers\AuditController;
 
@@ -15,5 +14,5 @@ use Devpartners\AuditableLog\Http\Controllers\AuditController;
 |
 */
 
-Route::get('/audits/{resourceName}/{resourceId}', AuditController::class.'@show');
-Route::post('/audits/{resourceName}/{resourceId}/{auditId}', AuditController::class.'@restore');
+Route::get('/audits/{resourceName}/{resourceId}', AuditController::class . '@show');
+Route::post('/audits/{resourceName}/{resourceId}/{auditId}', AuditController::class . '@restore');

@@ -2,8 +2,8 @@
 
 namespace Devpartners\AuditableLog;
 
-use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Nova;
+use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -32,23 +32,23 @@ class ToolServiceProvider extends ServiceProvider
             Nova::style('auditable-log', __DIR__ . '/../dist/css/tool.css');
 
             Nova::translations([
-                'Audit Log'      => __('Audit Log'),
-                'User'           => __('User'),
-                'Event'          => __('Event'),
-                'Date/Time'      => __('Date/Time'),
-                'Old Values'     => __('Old Values'),
-                'New Values'     => __('New Values'),
-                'console'        => __('console'),
-                'Previous'       => __('Previous'),
-                'Next'           => __('Next'),
+                'Audit Log' => __('Audit Log'),
+                'User' => __('User'),
+                'Event' => __('Event'),
+                'Date/Time' => __('Date/Time'),
+                'Old Values' => __('Old Values'),
+                'New Values' => __('New Values'),
+                'console' => __('console'),
+                'Previous' => __('Previous'),
+                'Next' => __('Next'),
                 'View Audit Log' => __('View Audit Log'),
-                'Restore audit'  => __('Restore audit'),
-                'Field'          => __('Field'),
-                'Current'        => __('Current'),
-                'Restore to'     => __('Restore to'),
-                'No changes'     => __('No changes'),
-                'Cancel'         => __('Cancel'),
-                'Restore'        => __('Restore'),
+                'Restore audit' => __('Restore audit'),
+                'Field' => __('Field'),
+                'Current' => __('Current'),
+                'Restore to' => __('Restore to'),
+                'No changes' => __('No changes'),
+                'Cancel' => __('Cancel'),
+                'Restore' => __('Restore'),
             ]);
         });
     }

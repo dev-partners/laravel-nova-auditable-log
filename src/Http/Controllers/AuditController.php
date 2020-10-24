@@ -2,13 +2,13 @@
 
 namespace Devpartners\AuditableLog\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
 use Laravel\Nova\Nova;
-use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 use OwenIt\Auditing\Models\Audit;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class AuditController
 {
@@ -26,6 +26,26 @@ class AuditController
         return response()->json(['status' => 'OK', 'audits' => $audits, 'restore' => $request->user()->can('audit_restore', $record)]);
     }
 
+    public function restore(Request $request, $resourceName, $resourceId, $auditId)
+    {
+        $record = $this->loadRecord($resourceName, $resourceId);
+        abort_if($request->user()->cant('audit_restore', $record), 403, 'Unable to restore audits');
+
+        /**
+         * @var Audit $auditor
+         * @var Audit $audit
+         */
+        $auditableClass = Config::get('audit.implementation', Audit::class);
+        $auditor = new $auditableClass();
+
+        $audit = $record->audits()->where($auditor->getTable() . '.' . $auditor->getKeyName(), $auditId)->firstOrFail();
+
+        $record->fill(Arr::only($audit->new_values, $request->input('restore', [])));
+        $record->save();
+
+        return response()->json(['status' => 'OK', 'record' => $record]);
+    }
+
     /**
      * @param $resourceName
      * @param $resourceId
@@ -39,25 +59,5 @@ class AuditController
         return in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($model))
             ? $model::withTrashed()->find($resourceId)
             : $model->find($resourceId);
-    }
-
-    public function restore(Request $request, $resourceName, $resourceId, $auditId)
-    {
-        $record = $this->loadRecord($resourceName, $resourceId);
-        abort_if($request->user()->cant('audit_restore', $record), 403, 'Unable to restore audits');
-
-        /**
-         * @var $auditor Audit
-         * @var $audit   Audit
-         */
-        $auditableClass = Config::get('audit.implementation', Audit::class);
-        $auditor = new $auditableClass;
-
-        $audit = $record->audits()->where($auditor->getTable() . '.' . $auditor->getKeyName(), $auditId)->firstOrFail();
-
-        $record->fill(Arr::only($audit->new_values, $request->input('restore', [])));
-        $record->save();
-
-        return response()->json(['status' => 'OK', 'record' => $record]);
     }
 }
