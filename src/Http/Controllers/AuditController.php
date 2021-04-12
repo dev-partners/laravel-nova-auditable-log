@@ -55,8 +55,7 @@ class AuditController
     protected function loadRecord($resourceName, $resourceId)
     {
         $model = Nova::modelInstanceForKey($resourceName);
-
-        return in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($model))
+        return method_exists($model, "trashed")
             ? $model::withTrashed()->find($resourceId)
             : $model->find($resourceId);
     }
