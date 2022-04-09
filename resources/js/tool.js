@@ -1,3 +1,5 @@
+import Tool from './components/Tool';
+
 Nova.booting((Vue, router, store) => {
-    Vue.component('auditable-log', require('./components/Tool'))
+    Vue.component('auditable-log', Tool)
 })
