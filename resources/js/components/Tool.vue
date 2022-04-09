@@ -153,7 +153,6 @@ export default {
 
         // Normalise the parent fields
         this.parentFields = normaliseFields(this.$parent.$parent.$.vnode.component.data.panels[0].fields);
-        console.log(this.parentFields)
     },
 
     methods: {
