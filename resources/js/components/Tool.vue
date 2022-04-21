@@ -3,7 +3,12 @@
         <hr class="border-t-2 border-50 my-11">
 
         <div v-if="displayAudits">
-            <h2 class="mb-3 text-90 font-normal text-2xl">{{__('Audit Log')}}</h2>
+            <div class="flex flex-row items-center">
+                <h2 class="mb-3 text-90 font-normal text-2xl">{{__('Audit Log')}}</h2>
+                <button class="btn btn-default btn-primary ml-4 mb-2" @click.prevent="close" v-if="displayAudits">
+                    {{__('Close Audit Log')}}
+                </button>
+            </div>
             <div class="card">
                 <table cellpadding="0" cellspacing="0" data-testid="resource-table" class="table w-full">
                     <thead>
@@ -155,6 +160,10 @@
             showAndFetch() {
                 this.displayAudits = true;
                 this.fetchAudits();
+            },
+
+            close() {
+                this.displayAudits = false;
             },
 
             async fetchAudits(page = null) {
