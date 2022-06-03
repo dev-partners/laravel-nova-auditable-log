@@ -5,9 +5,9 @@
         <div v-if="displayAudits">
             <div class="flex flex-row items-center">
                 <h2 class="mb-3 text-90 font-normal text-2xl">{{__('Audit Log')}}</h2>
-                <DefaultButton  class="ml-4 mb-2" @click.prevent="close" v-if="displayAudits">
+                <button class="btn btn-default btn-primary ml-4 mb-2" @click.prevent="close" v-if="displayAudits">
                     {{__('Close Audit Log')}}
-                </DefaultButton>
+                </button>
             </div>
             <div class="card">
                 <table cellpadding="0" cellspacing="0" data-testid="resource-table" class="table w-full">
