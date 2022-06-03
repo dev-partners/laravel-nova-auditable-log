@@ -15,21 +15,24 @@ class AuditController
     public function show(Request $request, $resourceName, $resourceId)
     {
         $record = $this->loadRecord($resourceName, $resourceId);
+        $user = $request->user(config('nova.guard'));
 
-        abort_if($request->user()->cant('audit', $record), 403, 'Unable to retrieve audits');
+        abort_if($user->cant('audit', $record), 403, 'Unable to retrieve audits');
 
         $audits = $record->audits()
             ->with('user')
             ->orderBy('created_at', 'desc')
             ->paginate();
 
-        return response()->json(['status' => 'OK', 'audits' => $audits, 'restore' => $request->user()->can('audit_restore', $record)]);
+        return response()->json(['status' => 'OK', 'audits' => $audits, 'restore' => $user->can('audit_restore', $record)]);
     }
 
     public function restore(Request $request, $resourceName, $resourceId, $auditId)
     {
         $record = $this->loadRecord($resourceName, $resourceId);
-        abort_if($request->user()->cant('audit_restore', $record), 403, 'Unable to restore audits');
+        $user = $request->user(config('nova.guard'));
+
+        abort_if($user->cant('audit_restore', $record), 403, 'Unable to restore audits');
 
         /**
          * @var Audit $auditor
