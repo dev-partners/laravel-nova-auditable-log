@@ -31,6 +31,10 @@ public function fields(Request $request)
 
 ```
 
+## Laravel Nova 3.x 
+
+The latest version of this package (^2.0) is compatible with Laravel Nova 4. If you require support for Laravel Nova 3, please use version ^1.0.
+
 ## Policies
 
 There are two policy gates available that you can implement on your resources' policy. 
