@@ -33,7 +33,7 @@ class ToolServiceProvider extends ServiceProvider
 
             Nova::translations([
                 'Audit Log' => __('Audit Log'),
-                'User' => __('User'),
+                //'User' => __('User'),
                 'Event' => __('Event'),
                 'Date/Time' => __('Date/Time'),
                 'Old Values' => __('Old Values'),
