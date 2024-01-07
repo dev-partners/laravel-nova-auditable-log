@@ -58,8 +58,7 @@ class AuditController
     protected function loadRecord($resourceName, $resourceId)
     {
         $model = Nova::modelInstanceForKey($resourceName);
-        return method_exists($model, "trashed")
-            ? $model::withTrashed()->find($resourceId)
-            : $model->find($resourceId);
+
+        return $model->withoutGlobalScopes()->find($resourceId);
     }
 }
